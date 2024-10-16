@@ -6,6 +6,11 @@ import { getUserByEmailAsync, IsEmailInUse } from "../../db/queries/user";
 
 export async function createAccount(req: Request, res: Response) {
     const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+        return res.status(400).json({ error: "All fields are required." });
+    }
+    // todo: replace with joi validation
+
     try {
         const isEmailInUse = await IsEmailInUse(email);
         if (isEmailInUse) {
@@ -33,6 +38,10 @@ export async function createAccount(req: Request, res: Response) {
 
 export async function login(req: Request, res: Response) {
     const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ error: "All fields are required." });
+    }
+    // todo: replace with joi validation
 
     try {
         const user = await getUserByEmailAsync(email);
