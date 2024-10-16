@@ -15,6 +15,7 @@ export async function createAccount(req: Request, res: Response) {
         const isEmailInUse = await IsEmailInUse(email);
         if (isEmailInUse) {
             res.status(400).json({ error: "This email address is taken." });
+            return;
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,7 +31,8 @@ export async function createAccount(req: Request, res: Response) {
             token: generateToken(id),
         });
     } catch (error) {
-        res.status(400).json({
+        console.error("Error creating account:", error);
+        res.status(500).json({
             error: "Something went wrong. Please try again later",
         });
     }
@@ -49,7 +51,7 @@ export async function login(req: Request, res: Response) {
             console.error(
                 "login failed. no user found with the provided email address."
             );
-            res.status(400).json({ error: "Email or password incorrect." });
+            res.status(401).json({ error: "Invalid credentials." });
             return;
         }
 
@@ -58,7 +60,7 @@ export async function login(req: Request, res: Response) {
             console.error(
                 `login failed. invalid password. user id: ${user.id}`
             );
-            res.status(400).json({ error: "Email or password incorrect." });
+            res.status(401).json({ error: "Invalid credentials." });
             return;
         }
 
@@ -67,7 +69,8 @@ export async function login(req: Request, res: Response) {
             token: generateToken(user.id),
         });
     } catch (error) {
-        res.status(400).json({
+        console.error("Error creating account:", error);
+        res.status(500).json({
             error: "Something went wrong. Please try again later",
         });
     }
