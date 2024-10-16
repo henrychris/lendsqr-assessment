@@ -4,7 +4,7 @@ export function extractUserIdFromToken(
     req: Request,
     res: Response,
     next: NextFunction
-) {
+): void {
     const { authorization } = req.headers;
 
     if (!authorization || !authorization.startsWith("Bearer ")) {
