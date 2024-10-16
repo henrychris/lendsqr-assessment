@@ -3,11 +3,14 @@ import logger from "morgan";
 import createError from "http-errors";
 import { testDbConnection } from "./db/db";
 import { PORT } from "./common/config";
+import userRoutes from "./api/routes/userRoutes";
 
 const app = express();
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/users", userRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {
