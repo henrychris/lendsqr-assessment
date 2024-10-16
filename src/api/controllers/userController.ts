@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
+import bcrypt, { compare } from "bcrypt";
 import { db } from "../../db/db";
 import { generateToken } from "../../helpers/token";
-import { IsEmailInUse } from "../../db/queries/user";
+import { getUserByEmailAsync, IsEmailInUse } from "../../db/queries/user";
 
-export const createAccount = async (req: Request, res: Response) => {
+export async function createAccount(req: Request, res: Response) {
     const { name, email, password } = req.body;
     try {
         const isEmailInUse = await IsEmailInUse(email);
@@ -25,6 +25,41 @@ export const createAccount = async (req: Request, res: Response) => {
             token: generateToken(id),
         });
     } catch (error) {
-        res.status(400).json({ error: "Account creation failed" });
+        res.status(400).json({
+            error: "Something went wrong. Please try again later",
+        });
     }
-};
+}
+
+export async function login(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    try {
+        const user = await getUserByEmailAsync(email);
+        if (!user) {
+            console.error(
+                "login failed. no user found with the provided email address."
+            );
+            res.status(400).json({ error: "Email or password incorrect." });
+            return;
+        }
+
+        let isPasswordValid = await compare(password, user.password);
+        if (!isPasswordValid) {
+            console.error(
+                `login failed. invalid password. user id: ${user.id}`
+            );
+            res.status(400).json({ error: "Email or password incorrect." });
+            return;
+        }
+
+        res.status(200).json({
+            userId: user.id,
+            token: generateToken(user.id),
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: "Something went wrong. Please try again later",
+        });
+    }
+}
