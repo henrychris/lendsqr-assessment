@@ -2,12 +2,11 @@
     "name": "lendsqr-assessment",
     "version": "1.0.0",
     "description": "An assessment for Lendsqr's backend engineer role.",
-    "type": "module",
-    "module": "dist/server.js",
     "scripts": {
         "prestart": "npx tsc",
         "start": "node dist/server.js ",
         "dev": "npx tsx watch src/server.ts",
+        "migrate": "npx knex --knexfile src/db/db.ts migrate:latest",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
