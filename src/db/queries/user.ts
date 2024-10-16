@@ -12,3 +12,7 @@ export async function getUserByEmailAsync(
     const user = await db<User>("users").where("email", email).first();
     return user;
 }
+
+export async function fundAccountAsync(userId: number, amount: number) {
+    await db<User>("users").where({ id: userId }).increment("balance", amount);
+}
