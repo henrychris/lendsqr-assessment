@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2020",
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "es6"
+    ],
     "rootDir": "./src",
     "outDir": "./dist",
     "esModuleInterop": true,
-    "moduleResolution": "Bundler",
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -17,6 +19,13 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
-
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".vscode"
+  ]
 }
