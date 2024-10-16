@@ -48,9 +48,9 @@ export async function transferFunds(
 
         res.status(200).json({ message: "Transfer successful" });
     } catch (error) {
-        const err = error as Error;
-        console.error(err);
-        res.status(400).json({ error: err.message });
+        console.error(error);
+        res.status(400).json({ error: "Transfer failed." });
+    }
 }
 
 export async function withdrawFunds(req: Request, res: Response) {
