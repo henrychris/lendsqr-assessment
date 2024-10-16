@@ -8,9 +8,10 @@ export function extractUserIdFromToken(
     const { authorization } = req.headers;
 
     if (!authorization || !authorization.startsWith("Bearer ")) {
-        return res
-            .status(401)
-            .json({ error: "Token not provided or invalid format." });
+        res.status(401).json({
+            error: "Token not provided or invalid format.",
+        });
+        return;
     }
 
     try {
@@ -18,11 +19,12 @@ export function extractUserIdFromToken(
         const parts = token.split("-");
 
         if (parts.length !== 3) {
-            return res.status(400).json({ error: "Invalid token format." });
+            res.status(400).json({ error: "Invalid token format." });
+            return;
         }
 
         const userId = parts[1];
-        req.body.userId = userId;
+        req.userId = parseInt(userId, 10);
 
         next();
     } catch (error) {
