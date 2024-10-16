@@ -2,9 +2,10 @@ import express, { Request, Response, NextFunction } from "express";
 import logger from "morgan";
 import createError from "http-errors";
 import { testDbConnection } from "./db/db";
-import { PORT } from "./common/config";
 import userRoutes from "./api/routes/userRoutes";
 import accountRoutes from "./api/routes/accountRoutes";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 app.use(logger("dev"));
@@ -30,6 +31,7 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
 });
 
 async function startServer(): Promise<void> {
+    const PORT = parseInt(process.env.PORT!);
     await testDbConnection();
     app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);
