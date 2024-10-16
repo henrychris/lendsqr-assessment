@@ -71,6 +71,7 @@ export async function login(req: Request, res: Response): Promise<void> {
 
         res.status(200).json({
             userId: user.id,
+            balance: Number(user.balance),
             token: generateToken(user.id),
         });
     } catch (error) {
