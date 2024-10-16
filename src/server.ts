@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
 import logger from "morgan";
 import createError from "http-errors";
+import { testDbConnection } from "./db/db";
+import { PORT } from "./common/config";
 
 const app = express();
 app.use(logger("dev"));
@@ -22,7 +24,14 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
     res.send({ message: "error", error: err.status });
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+async function startServer(): Promise<void> {
+    await testDbConnection();
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
+startServer().catch((error) => {
+    console.error("Error starting the server:", error.message);
+    process.exit(1);
 });
