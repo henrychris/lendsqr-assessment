@@ -5,6 +5,7 @@ import {
     getUserByEmailAsync,
     getUserByIdAsync,
     transferFundsAsync,
+    withdrawFundsAsync,
 } from "../../db/queries/user";
 
 export async function fundAccount(req: Request, res: Response): Promise<void> {
@@ -50,5 +51,26 @@ export async function transferFunds(
         const err = error as Error;
         console.error(err);
         res.status(400).json({ error: err.message });
+}
+
+export async function withdrawFunds(req: Request, res: Response) {
+    const { amount } = req.body;
+    try {
+        const user = await getUserByIdAsync(req.userId!);
+        if (!user) {
+            res.status(400).json({ error: "User not found." });
+            return;
+        }
+
+        if (user.balance < amount) {
+            res.status(400).json({ error: "Insufficient funds" });
+            return;
+        }
+
+        await withdrawFundsAsync(user.id, amount);
+        res.status(200).json({ message: "Withdrawal successful" });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ error: "Withdrawal failed." });
     }
 }

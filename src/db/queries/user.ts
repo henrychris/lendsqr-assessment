@@ -34,3 +34,7 @@ export async function transferFundsAsync(
             .increment("balance", amount);
     });
 }
+
+export async function withdrawFundsAsync(userId: number, amount: number) {
+    await db("users").where({ id: userId }).decrement("balance", amount);
+}
