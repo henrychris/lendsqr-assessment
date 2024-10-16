@@ -4,10 +4,14 @@ import { db } from "../../db/db";
 import { generateToken } from "../../helpers/token";
 import { getUserByEmailAsync, IsEmailInUse } from "../../db/queries/user";
 
-export async function createAccount(req: Request, res: Response) {
+export async function createAccount(
+    req: Request,
+    res: Response
+): Promise<void> {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
-        return res.status(400).json({ error: "All fields are required." });
+        res.status(400).json({ error: "All fields are required." });
+        return;
     }
     // todo: replace with joi validation
 
@@ -38,10 +42,11 @@ export async function createAccount(req: Request, res: Response) {
     }
 }
 
-export async function login(req: Request, res: Response) {
+export async function login(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
     if (!email || !password) {
-        return res.status(400).json({ error: "All fields are required." });
+        res.status(400).json({ error: "All fields are required." });
+        return;
     }
     // todo: replace with joi validation
 
