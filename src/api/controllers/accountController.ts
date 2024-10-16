@@ -20,10 +20,10 @@ export async function fundAccount(req: Request, res: Response): Promise<void> {
     }
 }
 
-export const transferFunds = async (
+export async function transferFunds(
     req: Request,
     res: Response
-): Promise<void> => {
+): Promise<void> {
     const { recipientEmail, amount } = req.body;
     try {
         const sender = await getUserByIdAsync(req.userId!);
@@ -51,4 +51,4 @@ export const transferFunds = async (
         console.error(err);
         res.status(400).json({ error: err.message });
     }
-};
+}
