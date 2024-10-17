@@ -7,7 +7,7 @@ import accountRoutes from "./api/routes/accountRoutes";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const app = express();
+export const app = express();
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
