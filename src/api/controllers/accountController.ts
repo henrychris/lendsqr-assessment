@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
-
 import {
     fundAccountAsync,
-    getUserByEmailAsync,
-    getUserByIdAsync,
     transferFundsAsync,
     withdrawFundsAsync,
-} from "../../db/queries/userQueries";
+} from "../../services/accountService";
+import {
+    getUserByEmailAsync,
+    getUserByIdAsync,
+} from "../../services/userService";
 
 export async function fundAccount(req: Request, res: Response): Promise<void> {
     const { amount } = req.body;

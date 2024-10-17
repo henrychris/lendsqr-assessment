@@ -2,10 +2,7 @@ import { Request, Response } from "express";
 import bcrypt, { compare } from "bcrypt";
 import { db } from "../../db/db";
 import { generateToken } from "../../helpers/token";
-import {
-    getUserByEmailAsync,
-    isEmailInUse,
-} from "../../db/queries/userQueries";
+import { getUserByEmailAsync, isEmailInUse } from "../../services/userService";
 
 export async function createAccount(
     req: Request,
