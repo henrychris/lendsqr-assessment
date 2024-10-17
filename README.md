@@ -286,7 +286,9 @@ For simplicity, this MVP uses a single table.
 
 ![Database ERD](./images/demo-credit_erd.png)
 
-This table stores both user data & their account balance. In a real-world application we might instead create `User`, `Wallet` and `Transaction` tables.
+This table stores both user data & their account balance. In a real-world application we might instead create `User`, `Wallet` and `Transaction` tables. It could look similar to this:
+
+![Robust Database ERD](./images/prod_db_erd.png)
 
 ## Known Issues
 
