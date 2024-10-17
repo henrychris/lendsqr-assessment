@@ -12,6 +12,11 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get("/", (_req: Request, res: Response): void => {
+    res.send("Hello there!");
+    return;
+});
+
 app.use("/users", userRoutes);
 app.use("/account", accountRoutes);
 
