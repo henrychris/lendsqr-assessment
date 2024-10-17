@@ -292,4 +292,16 @@ This table stores both user data & their account balance. In a real-world applic
 
 ## Known Issues
 
-Blacklist
+### Blacklist Check
+
+Before creating a user, we check the Karma blacklist to see if they are clear:
+
+```ts
+const isBlacklisted = await checkBlacklist(email);
+        if (isBlacklisted) {
+            res.status(403).json({ error: "User is blacklisted" });
+            return;
+        }
+```
+
+This makes a call to the Adjutor API. The issue is it occasionally returns a 402 Payment Required error, which requires me to fund an account.
