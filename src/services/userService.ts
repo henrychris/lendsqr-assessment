@@ -36,3 +36,24 @@ export async function getUserByIdAsync(id: number): Promise<User | undefined> {
     const user = await db<User>("users").where("id", id).first();
     return user;
 }
+
+/**
+ * Insert a user entity into the database
+ * 
+ * @param name The user's name
+ * @param email The user's email address
+ * @param passwordHash The hashed password
+ * @returns The created user's id
+ */
+export async function createUser(
+    name: string,
+    email: string,
+    passwordHash: string
+): Promise<number> {
+    const [id] = await db("users").insert({
+        name,
+        email,
+        password: passwordHash,
+    });
+    return id;
+}

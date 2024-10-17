@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
-import bcrypt, { compare } from "bcrypt";
-import { db } from "../../db/db";
+import { hash, compare } from "bcrypt";
 import { generateToken } from "../../helpers/token";
-import { getUserByEmailAsync, isEmailInUse } from "../../services/userService";
+import {
+    createUser,
+    getUserByEmailAsync,
+    isEmailInUse,
+} from "../../services/userService";
 import { checkBlacklist } from "../../services/adjutorService";
 
 export async function createAccount(
@@ -24,12 +27,8 @@ export async function createAccount(
             return;
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const [id] = await db("users").insert({
-            name,
-            email,
-            password: hashedPassword,
-        });
+        const hashedPassword = await hash(password, 10);
+        const id = await createUser(name, email, hashedPassword);
 
         res.status(201).json({
             message: "Account created",
