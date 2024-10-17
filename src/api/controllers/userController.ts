@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import bcrypt, { compare } from "bcrypt";
 import { db } from "../../db/db";
 import { generateToken } from "../../helpers/token";
-import { getUserByEmailAsync, IsEmailInUse } from "../../db/queries/user";
+import {
+    getUserByEmailAsync,
+    isEmailInUse,
+} from "../../db/queries/userQueries";
 
 export async function createAccount(
     req: Request,
@@ -16,8 +19,8 @@ export async function createAccount(
     // todo: replace with joi validation
 
     try {
-        const isEmailInUse = await IsEmailInUse(email);
-        if (isEmailInUse) {
+        const isEmailUsed = await isEmailInUse(email);
+        if (isEmailUsed) {
             res.status(400).json({ error: "This email address is taken." });
             return;
         }
