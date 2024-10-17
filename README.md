@@ -4,7 +4,7 @@ A backend API service built with Node.js and Express that allows users to fund a
 
 ## Features
 
-- Create Account: Create a user account
+- Create Account: Create a user account - if the user is not blacklisted
 - Fund Account: Add money to user accounts.
 - Transfer Funds: Transfer money between users securely.
 - Withdraw Funds: Allow users to withdraw money from their accounts.
