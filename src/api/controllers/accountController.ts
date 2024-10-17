@@ -11,13 +11,12 @@ import {
 export async function fundAccount(req: Request, res: Response): Promise<void> {
     const { amount } = req.body;
     try {
-        console.log(`userId: ${req.userId}. amount: ${amount}`);
-
         await fundAccountAsync(req.userId!, amount);
+        console.log(`Successfully funded user ${req.userId} with ${amount}.`);
         res.status(200).json({ message: "Account funded" });
     } catch (error) {
         console.error(error);
-        res.status(400).json({ error: "Funding failed" });
+        res.status(500).json({ error: "Funding failed" });
     }
 }
 
@@ -45,11 +44,14 @@ export async function transferFunds(
         }
 
         await transferFundsAsync(sender.id, recipient.id, Number(amount));
+        console.log(
+            `Transferred ${amount} from user ${sender.id} to user ${recipient.id}.`
+        );
 
         res.status(200).json({ message: "Transfer successful" });
     } catch (error) {
         console.error(error);
-        res.status(400).json({ error: "Transfer failed." });
+        res.status(500).json({ error: "Transfer failed." });
     }
 }
 
@@ -68,9 +70,10 @@ export async function withdrawFunds(req: Request, res: Response) {
         }
 
         await withdrawFundsAsync(user.id, amount);
+        console.log(`Successfully withdrew ${amount} from user ${req.userId}.`);
         res.status(200).json({ message: "Withdrawal successful" });
     } catch (error) {
         console.error(error);
-        res.status(400).json({ error: "Withdrawal failed." });
+        res.status(500).json({ error: "Withdrawal failed." });
     }
 }
