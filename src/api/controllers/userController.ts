@@ -10,11 +10,6 @@ export async function createAccount(
     res: Response
 ): Promise<void> {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-        res.status(400).json({ error: "All fields are required." });
-        return;
-    }
-    // todo: replace with joi validation
 
     try {
         const isBlacklisted = await checkBlacklist(email);
@@ -51,11 +46,6 @@ export async function createAccount(
 
 export async function login(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
-    if (!email || !password) {
-        res.status(400).json({ error: "All fields are required." });
-        return;
-    }
-    // todo: replace with joi validation
 
     try {
         const user = await getUserByEmailAsync(email);
