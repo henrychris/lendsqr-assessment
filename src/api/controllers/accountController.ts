@@ -6,7 +6,7 @@ import {
     getUserByIdAsync,
     transferFundsAsync,
     withdrawFundsAsync,
-} from "../../db/queries/user";
+} from "../../db/queries/userQueries";
 
 export async function fundAccount(req: Request, res: Response): Promise<void> {
     const { amount } = req.body;
