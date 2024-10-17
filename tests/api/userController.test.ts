@@ -1,7 +1,7 @@
 import request from "supertest";
 import { app } from "../../src/server";
 import { compare, hash } from "../../__mocks__/bcrypt";
-import { generateToken } from "../../src/helpers/token"; // todo: mock this in __mocks__
+import { generateToken } from "../../src/helpers/token";
 import { checkBlacklist } from "../../src/services/adjutorService";
 import {
     getUserByEmailAsync,
@@ -10,11 +10,13 @@ import {
 } from "../../src/services/userService";
 import { vi, describe, expect, afterEach, it } from "vitest";
 
+// Mock dependencies
 vi.mock("../../src/services/userService");
 vi.mock("../../src/services/adjutorService");
 vi.mock("../../src/helpers/token");
 vi.mock("bcrypt");
 
+// Default token mock
 vi.mocked(generateToken).mockReturnValue("mocked-token");
 
 describe("User Controller", () => {
@@ -64,7 +66,7 @@ describe("User Controller", () => {
             vi.mocked(isEmailInUse).mockResolvedValueOnce(false);
             vi.mocked(createUser).mockResolvedValueOnce(1);
 
-            vi.mocked(hash).mockReturnValue("hashed-password");
+            vi.mocked(hash).mockResolvedValueOnce("hashed-password");
 
             const response = await request(app).post("/users/create").send({
                 name: "John Doe",
