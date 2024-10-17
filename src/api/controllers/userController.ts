@@ -3,6 +3,7 @@ import bcrypt, { compare } from "bcrypt";
 import { db } from "../../db/db";
 import { generateToken } from "../../helpers/token";
 import { getUserByEmailAsync, isEmailInUse } from "../../services/userService";
+import { checkBlacklist } from "../../services/adjutorService";
 
 export async function createAccount(
     req: Request,
@@ -16,6 +17,12 @@ export async function createAccount(
     // todo: replace with joi validation
 
     try {
+        const isBlacklisted = await checkBlacklist(email);
+        if (isBlacklisted) {
+            res.status(403).json({ error: "User is blacklisted" });
+            return;
+        }
+
         const isEmailUsed = await isEmailInUse(email);
         if (isEmailUsed) {
             res.status(400).json({ error: "This email address is taken." });
