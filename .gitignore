@@ -177,3 +177,4 @@ dist
 dist/
 .env
 todo.txt
+node_modules
