@@ -142,6 +142,8 @@ describe("User Controller", () => {
             expect(response.status).toBe(200);
             expect(response.body).toEqual({
                 userId: 1,
+                name: "John Doe",
+                email: "john@example.com",
                 balance: 100,
                 token: "mocked-token",
             });

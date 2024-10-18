@@ -67,6 +67,8 @@ export async function login(req: Request, res: Response): Promise<void> {
 
         res.status(200).json({
             userId: user.id,
+            name: user.name,
+            email: user.email,
             balance: Number(user.balance),
             token: generateToken(user.id),
         });
