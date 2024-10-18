@@ -12,8 +12,6 @@ export async function fundAccountAsync(
     userId: number,
     amount: number
 ): Promise<void> {
-    if (amount <= 0) throw new Error("Amount must be positive.");
-
     await db<User>("users").where({ id: userId }).increment("balance", amount);
 }
 
