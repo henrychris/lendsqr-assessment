@@ -2,11 +2,11 @@ import request from "supertest";
 import { app } from "../../src/server";
 import { compare, hash } from "../../__mocks__/bcrypt";
 import { generateToken } from "../../src/helpers/token";
-import { checkBlacklist } from "../../src/services/adjutorService";
+import { checkBlacklistAsync } from "../../src/services/adjutorService";
 import {
     getUserByEmailAsync,
-    isEmailInUse,
-    createUser,
+    isEmailInUseAsync,
+    createUserAsync,
 } from "../../src/services/userService";
 import { vi, describe, expect, afterEach, it } from "vitest";
 
@@ -35,7 +35,7 @@ describe("User Controller", () => {
         });
 
         it("should return 403 if user is blacklisted", async () => {
-            vi.mocked(checkBlacklist).mockResolvedValueOnce(true);
+            vi.mocked(checkBlacklistAsync).mockResolvedValueOnce(true);
 
             const response = await request(app).post("/users/create").send({
                 name: "John Doe",
@@ -48,7 +48,7 @@ describe("User Controller", () => {
         });
 
         it("should return 400 if email is already in use", async () => {
-            vi.mocked(isEmailInUse).mockResolvedValueOnce(true);
+            vi.mocked(isEmailInUseAsync).mockResolvedValueOnce(true);
 
             const response = await request(app).post("/users/create").send({
                 name: "John Doe",
@@ -63,8 +63,8 @@ describe("User Controller", () => {
         });
 
         it("should return 201 and create an account successfully", async () => {
-            vi.mocked(isEmailInUse).mockResolvedValueOnce(false);
-            vi.mocked(createUser).mockResolvedValueOnce(1);
+            vi.mocked(isEmailInUseAsync).mockResolvedValueOnce(false);
+            vi.mocked(createUserAsync).mockResolvedValueOnce(1);
 
             vi.mocked(hash).mockResolvedValueOnce("hashed-password");
 

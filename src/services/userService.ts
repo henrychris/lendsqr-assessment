@@ -7,7 +7,7 @@ import { db } from "../db/db";
  * @param email An email address
  * @returns A boolean indicating if the email is in use or not
  */
-export async function isEmailInUse(email: string): Promise<boolean> {
+export async function isEmailInUseAsync(email: string): Promise<boolean> {
     const user = await db<User>("users").where("email", email).first();
     return user ? true : false;
 }
@@ -39,13 +39,13 @@ export async function getUserByIdAsync(id: number): Promise<User | undefined> {
 
 /**
  * Insert a user entity into the database
- * 
+ *
  * @param name The user's name
  * @param email The user's email address
  * @param passwordHash The hashed password
  * @returns The created user's id
  */
-export async function createUser(
+export async function createUserAsync(
     name: string,
     email: string,
     passwordHash: string

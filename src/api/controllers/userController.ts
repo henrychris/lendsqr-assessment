@@ -2,11 +2,11 @@ import { Request, Response } from "express";
 import { hash, compare } from "bcrypt";
 import { generateToken } from "../../helpers/token";
 import {
-    createUser,
+    createUserAsync,
     getUserByEmailAsync,
-    isEmailInUse,
+    isEmailInUseAsync as isEmailInUseAsync,
 } from "../../services/userService";
-import { checkBlacklist } from "../../services/adjutorService";
+import { checkBlacklistAsync } from "../../services/adjutorService";
 
 export async function createAccount(
     req: Request,
@@ -15,20 +15,20 @@ export async function createAccount(
     const { name, email, password } = req.body;
 
     try {
-        const isBlacklisted = await checkBlacklist(email);
+        const isBlacklisted = await checkBlacklistAsync(email);
         if (isBlacklisted) {
             res.status(403).json({ error: "User is blacklisted" });
             return;
         }
 
-        const isEmailUsed = await isEmailInUse(email);
-        if (isEmailUsed) {
+        const isEmailInUse = await isEmailInUseAsync(email);
+        if (isEmailInUse) {
             res.status(400).json({ error: "This email address is taken." });
             return;
         }
 
         const hashedPassword = await hash(password, 10);
-        const id = await createUser(name, email, hashedPassword);
+        const id = await createUserAsync(name, email, hashedPassword);
 
         res.status(201).json({
             message: "Account created",
