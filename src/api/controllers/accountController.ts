@@ -39,6 +39,13 @@ export async function transferFunds(
             return;
         }
 
+        if (sender.email === recipient.email) {
+            res.status(400).json({
+                error: "Invalid Recipient - you may not transfer funds to yourself.",
+            });
+            return;
+        }
+
         if (sender.balance < amount) {
             res.status(400).json({ error: "Insufficient funds" });
             return;

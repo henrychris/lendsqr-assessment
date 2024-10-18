@@ -134,6 +134,26 @@ describe("Account Controller", () => {
             expect(res.status).toBe(400);
             expect(res.body).toEqual({ error: "Insufficient funds" });
         });
+
+        it("should fail if sender and recipient are the same", async () => {
+            const AMOUNT = 1000; // greater than balance
+
+            vi.mocked(getUserByIdAsync).mockResolvedValue(mockUser);
+            vi.mocked(getUserByEmailAsync).mockResolvedValue(mockUser);
+
+            const res = await request(app)
+                .post("/account/transfer")
+                .send({
+                    amount: AMOUNT,
+                    recipientEmail: mockUser.email,
+                })
+                .auth(mockUserToken, { type: "bearer" });
+
+            expect(res.status).toBe(400);
+            expect(res.body).toEqual({
+                error: "Invalid Recipient - you may not transfer funds to yourself.",
+            });
+        });
     });
 
     describe("withdrawFunds", () => {
