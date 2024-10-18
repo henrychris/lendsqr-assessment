@@ -1,17 +1,16 @@
 import { knex, type Knex } from "knex";
-import * as dotenv from "dotenv";
-dotenv.config({
-    path: "../../.env", // point to main env file
-});
+import { envService } from "../common/config";
+const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } =
+    envService.env.DATABASE;
 
 const config: Knex.Config = {
     client: "mysql2",
     connection: {
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        port: parseInt(process.env.DB_PORT || "3306", 10),
+        host: DB_HOST,
+        user: DB_USER,
+        password: DB_PASSWORD,
+        database: DB_NAME,
+        port: DB_PORT,
     },
     pool: {
         min: 2,

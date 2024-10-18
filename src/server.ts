@@ -4,8 +4,7 @@ import createError from "http-errors";
 import { testDbConnection } from "./db/db";
 import userRoutes from "./api/routes/userRoutes";
 import accountRoutes from "./api/routes/accountRoutes";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { envService } from "./common/config";
 
 export const app = express();
 app.use(logger("dev"));
@@ -36,7 +35,8 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
 });
 
 async function startServer(): Promise<void> {
-    const PORT = parseInt(process.env.PORT!);
+    const PORT = envService.env.PORT;
+    
     await testDbConnection();
     app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);

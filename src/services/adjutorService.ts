@@ -1,8 +1,9 @@
 import { KARMA_URL } from "../common/adjutorApi";
+import { envService } from "../common/config";
 
 export async function checkBlacklist(email: string) {
     const response = await fetch(`${KARMA_URL}${email}`, {
-        headers: { Authorization: `Bearer ${process.env.APP_KEY}` },
+        headers: { Authorization: `Bearer ${envService.env.ADJUTOR.APP_KEY}` },
     });
 
     if (response.status === 404) {
