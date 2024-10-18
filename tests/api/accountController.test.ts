@@ -40,6 +40,9 @@ describe("Account Controller", () => {
     describe("fundAccount", () => {
         it("should fund the account successfully", async () => {
             const AMOUNT = 1000;
+
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(mockUser);
+
             const response = await request(app)
                 .post("/account/fund")
                 .send({
@@ -49,6 +52,19 @@ describe("Account Controller", () => {
 
             expect(response.status).toBe(200);
             expect(fundAccountAsync).toHaveBeenCalledWith(mockUser.id, AMOUNT);
+        });
+
+        it("should return a 404 if the user is not found", async () => {
+            const AMOUNT = 1000;
+
+            const response = await request(app)
+                .post("/account/fund")
+                .send({
+                    amount: AMOUNT,
+                })
+                .auth(mockUserToken, { type: "bearer" });
+
+            expect(response.status).toBe(404);
         });
 
         it("should return 422 if the amount is negative", async () => {

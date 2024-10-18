@@ -12,6 +12,12 @@ import {
 export async function fundAccount(req: Request, res: Response): Promise<void> {
     const { amount } = req.body;
     try {
+        const sender = await getUserByIdAsync(req.userId!);
+        if (!sender) {
+            res.status(404).json({ error: "User not found." });
+            return;
+        }
+
         await fundAccountAsync(req.userId!, amount);
         console.log(`Successfully funded user ${req.userId} with ${amount}.`);
         res.status(200).json({ message: "Account funded" });
