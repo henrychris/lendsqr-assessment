@@ -67,8 +67,8 @@ describe("Account Controller", () => {
     describe("transferFunds", () => {
         it("should transfer funds successfully", async () => {
             const AMOUNT = 1000;
-            vi.mocked(getUserByIdAsync).mockResolvedValue(mockUser);
-            vi.mocked(getUserByEmailAsync).mockResolvedValue(recipient);
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(mockUser);
+            vi.mocked(getUserByEmailAsync).mockResolvedValueOnce(recipient);
 
             const res = await request(app)
                 .post("/account/transfer")
@@ -88,7 +88,7 @@ describe("Account Controller", () => {
 
         it("should return 400 if sender is not found", async () => {
             const AMOUNT = 50;
-            vi.mocked(getUserByIdAsync).mockResolvedValue(undefined);
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(undefined);
 
             const res = await request(app)
                 .post("/account/transfer")
@@ -103,8 +103,8 @@ describe("Account Controller", () => {
 
         it("should return 400 if recipient is not found", async () => {
             const AMOUNT = 50;
-            vi.mocked(getUserByIdAsync).mockResolvedValue(mockUser);
-            vi.mocked(getUserByEmailAsync).mockResolvedValue(undefined);
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(mockUser);
+            vi.mocked(getUserByEmailAsync).mockResolvedValueOnce(undefined);
 
             const res = await request(app)
                 .post("/account/transfer")
@@ -120,8 +120,8 @@ describe("Account Controller", () => {
         it("should return 400 if sender has insufficient funds", async () => {
             const AMOUNT = 2000; // greater than balance
 
-            vi.mocked(getUserByIdAsync).mockResolvedValue(mockUser);
-            vi.mocked(getUserByEmailAsync).mockResolvedValue(recipient);
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(mockUser);
+            vi.mocked(getUserByEmailAsync).mockResolvedValueOnce(recipient);
 
             const res = await request(app)
                 .post("/account/transfer")
@@ -138,8 +138,8 @@ describe("Account Controller", () => {
         it("should fail if sender and recipient are the same", async () => {
             const AMOUNT = 1000; // greater than balance
 
-            vi.mocked(getUserByIdAsync).mockResolvedValue(mockUser);
-            vi.mocked(getUserByEmailAsync).mockResolvedValue(mockUser);
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(mockUser);
+            vi.mocked(getUserByEmailAsync).mockResolvedValueOnce(mockUser);
 
             const res = await request(app)
                 .post("/account/transfer")
@@ -159,7 +159,7 @@ describe("Account Controller", () => {
     describe("withdrawFunds", () => {
         it("should withdraw funds successfully", async () => {
             const AMOUNT = 1000;
-            vi.mocked(getUserByIdAsync).mockResolvedValue(mockUser);
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(mockUser);
 
             const res = await request(app)
                 .post("/account/withdraw")
@@ -177,7 +177,7 @@ describe("Account Controller", () => {
 
         it("should return 400 if user is not found", async () => {
             const AMOUNT = 1000;
-            vi.mocked(getUserByIdAsync).mockResolvedValue(undefined);
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(undefined);
 
             const res = await request(app)
                 .post("/account/withdraw")
@@ -192,7 +192,7 @@ describe("Account Controller", () => {
 
         it("should return 400 if insufficient funds", async () => {
             const AMOUNT = 5000;
-            vi.mocked(getUserByIdAsync).mockResolvedValue(mockUser);
+            vi.mocked(getUserByIdAsync).mockResolvedValueOnce(mockUser);
 
             const res = await request(app)
                 .post("/account/withdraw")
