@@ -15,18 +15,18 @@ interface AdjutorConfig {
 
 interface EnvironmentConfig {
     PORT: number;
+    NODE_ENV: string;
     DATABASE: DatabaseConfig;
     ADJUTOR: AdjutorConfig;
 }
 
 function loadEnv(): EnvironmentConfig {
-    console.log(`dirname: ${__dirname}`);
-
     const envPath = path.resolve(__dirname, "..", "..", ".env");
     dotenv.config({ path: envPath });
 
     const env: EnvironmentConfig = {
         PORT: Number(process.env.PORT),
+        NODE_ENV: process.env.NODE_ENV || "",
         DATABASE: {
             DB_HOST: process.env.DB_HOST || "",
             DB_PORT: Number(process.env.DB_PORT),
