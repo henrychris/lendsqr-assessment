@@ -103,10 +103,12 @@ Once the server is running, you can use Postman or cURL to interact with the API
 
 ## API Endpoints
 
+Assume `BASE_URL` is `http://localhost:3000`.
+
 ### 1. Create a User  
 
 **Endpoint:**  
-`POST http://localhost:3000/users/create`  
+`POST BASE_URL/users/create`  
 
 **Description:**  
 Creates a new user account. Returns a user ID and an authentication token for future requests.  
@@ -136,7 +138,7 @@ Creates a new user account. Returns a user ID and an authentication token for fu
 ### 2. User Login
 
 **Endpoint:**  
-`POST http://localhost:3000/users/login`  
+`POST BASE_URL/users/login`  
 
 **Description:**  
 Logs in a user and returns the user's ID, balance, and an authentication token.  
@@ -165,7 +167,7 @@ Logs in a user and returns the user's ID, balance, and an authentication token.
 ### 3. Withdraw Funds
 
 **Endpoint:**  
-`POST http://localhost:3000/account/withdraw`  
+`POST BASE_URL/account/withdraw`  
 
 **Description:**  
 Withdraws a specified amount from the authenticated user’s account.  
@@ -194,7 +196,7 @@ Withdraws a specified amount from the authenticated user’s account.
 ### 4. Transfer Funds
 
 **Endpoint:**  
-`POST http://localhost:3000/account/transfer`  
+`POST BASE_URL/account/transfer`  
 
 **Description:**  
 Transfers a specified amount from the authenticated user to the recipient specified by email.  
@@ -224,7 +226,7 @@ Transfers a specified amount from the authenticated user to the recipient specif
 ### 5. Fund Account
 
 **Endpoint:**  
-`POST http://localhost:3000/account/fund`  
+`POST BASE_URL/account/fund`  
 
 **Description:**  
 Adds a specified amount to the authenticated user’s account balance.  
