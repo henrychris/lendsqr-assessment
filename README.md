@@ -309,3 +309,7 @@ const isBlacklisted = await checkBlacklist(email);
 ```
 
 This makes a call to the Adjutor API. The issue is it occasionally returns a 402 Payment Required error, which requires me to fund an account.
+
+## Links
+
+- [Project Report - Google Docs](https://docs.google.com/document/d/13Njxzvupza9tvLvgWO9F4IzU6NhmpTYyZUjnSfx3tIE/edit?usp=sharing)
