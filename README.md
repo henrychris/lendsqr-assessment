@@ -157,8 +157,10 @@ Logs in a user and returns the user's ID, balance, and an authentication token.
 ```json
 {
   "userId": 3,
-  "balance": 9000,
-  "token": "token-3-1729184260209"
+  "name": "Martie",
+  "email": "martie@email.com",
+  "balance": 11000,
+  "token": "token-3-1729246734118"
 }
 ```
 
