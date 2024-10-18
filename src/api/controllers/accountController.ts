@@ -74,7 +74,7 @@ export async function withdrawFunds(req: Request, res: Response) {
     try {
         const user = await getUserByIdAsync(req.userId!);
         if (!user) {
-            res.status(400).json({ error: "User not found." });
+            res.status(404).json({ error: "User not found." });
             return;
         }
 

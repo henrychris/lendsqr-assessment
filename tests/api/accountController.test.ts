@@ -191,7 +191,7 @@ describe("Account Controller", () => {
             expect(res.status).toBe(200);
         });
 
-        it("should return 400 if user is not found", async () => {
+        it("should return 404 if user is not found", async () => {
             const AMOUNT = 1000;
             vi.mocked(getUserByIdAsync).mockResolvedValueOnce(undefined);
 
@@ -202,7 +202,7 @@ describe("Account Controller", () => {
                 })
                 .auth(mockUserToken, { type: "bearer" });
 
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(404);
             expect(res.body).toEqual({ error: "User not found." });
         });
 
