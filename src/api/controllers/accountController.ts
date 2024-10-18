@@ -35,13 +35,13 @@ export async function transferFunds(
     try {
         const sender = await getUserByIdAsync(req.userId!);
         if (!sender) {
-            res.status(400).json({ error: "User not found." });
+            res.status(404).json({ error: "User not found." });
             return;
         }
 
         const recipient = await getUserByEmailAsync(recipientEmail);
         if (!recipient) {
-            res.status(400).json({ error: "Recipient not found." });
+            res.status(404).json({ error: "Recipient not found." });
             return;
         }
 

@@ -102,7 +102,7 @@ describe("Account Controller", () => {
             expect(res.status).toBe(200);
         });
 
-        it("should return 400 if sender is not found", async () => {
+        it("should return 404 if sender is not found", async () => {
             const AMOUNT = 50;
             vi.mocked(getUserByIdAsync).mockResolvedValueOnce(undefined);
 
@@ -114,10 +114,10 @@ describe("Account Controller", () => {
                 })
                 .auth(mockUserToken, { type: "bearer" });
 
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(404);
         });
 
-        it("should return 400 if recipient is not found", async () => {
+        it("should return 404 if recipient is not found", async () => {
             const AMOUNT = 50;
             vi.mocked(getUserByIdAsync).mockResolvedValueOnce(mockUser);
             vi.mocked(getUserByEmailAsync).mockResolvedValueOnce(undefined);
@@ -130,7 +130,7 @@ describe("Account Controller", () => {
                 })
                 .auth(mockUserToken, { type: "bearer" });
 
-            expect(res.status).toBe(400);
+            expect(res.status).toBe(404);
         });
 
         it("should return 400 if sender has insufficient funds", async () => {
