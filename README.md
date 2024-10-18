@@ -83,7 +83,7 @@ Create a `.env` file in the repository root and provide the following:
  APP_KEY
  ```
 
-`APP_KEY` is the secret key of the application created on Adjuctor.
+`APP_KEY` is the secret key of the application created on Adjutor.
 
 4. Run database migrations
 
