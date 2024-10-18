@@ -36,11 +36,14 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
 
 async function startServer(): Promise<void> {
     const PORT = envService.env.PORT;
-    
+
     await testDbConnection();
-    app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-    });
+
+    if (envService.env.NODE_ENV !== "test") {
+        app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    }
 }
 
 startServer().catch((error) => {
