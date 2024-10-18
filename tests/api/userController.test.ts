@@ -2,7 +2,7 @@ import request from "supertest";
 import { app } from "../../src/server";
 import { compare, hash } from "../../__mocks__/bcrypt";
 import { generateToken } from "../../src/helpers/token";
-import { checkBlacklistAsync } from "../../src/services/adjutorService";
+import { isUserBlacklisted } from "../../src/services/adjutorService";
 import {
     getUserByEmailAsync,
     isEmailInUseAsync,
@@ -35,7 +35,7 @@ describe("User Controller", () => {
         });
 
         it("should return 403 if user is blacklisted", async () => {
-            vi.mocked(checkBlacklistAsync).mockResolvedValueOnce(true);
+            vi.mocked(isUserBlacklisted).mockResolvedValueOnce(true);
 
             const response = await request(app).post("/users/create").send({
                 name: "John Doe",

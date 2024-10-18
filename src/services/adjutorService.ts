@@ -1,14 +1,14 @@
 import { KARMA_URL } from "../common/adjutorApi";
 import { envService } from "../common/config";
 
-export async function checkBlacklistAsync(email: string) {
+export async function isUserBlacklisted(email: string): Promise<boolean> {
     const response = await fetch(`${KARMA_URL}${email}`, {
         headers: { Authorization: `Bearer ${envService.env.ADJUTOR.APP_KEY}` },
     });
 
     if (response.status === 404) {
         console.log("Email not found in blacklist.");
-        return null;
+        return false;
     }
 
     if (!response.ok) {
@@ -16,5 +16,5 @@ export async function checkBlacklistAsync(email: string) {
         throw new Error("Error checking blacklist.");
     }
 
-    return await response.json();
+    return true;
 }

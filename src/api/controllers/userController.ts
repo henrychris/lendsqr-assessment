@@ -6,7 +6,7 @@ import {
     getUserByEmailAsync,
     isEmailInUseAsync as isEmailInUseAsync,
 } from "../../services/userService";
-import { checkBlacklistAsync } from "../../services/adjutorService";
+import { isUserBlacklisted } from "../../services/adjutorService";
 
 export async function createAccount(
     req: Request,
@@ -15,7 +15,7 @@ export async function createAccount(
     const { name, email, password } = req.body;
 
     try {
-        const isBlacklisted = await checkBlacklistAsync(email);
+        const isBlacklisted = await isUserBlacklisted(email);
         if (isBlacklisted) {
             res.status(403).json({ error: "User is blacklisted" });
             return;
